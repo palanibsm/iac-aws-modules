@@ -12,4 +12,12 @@ resource "aws_db_instance" "this" {
   username             = "foo"
   password             = "foobarbaz"
   parameter_group_name = "default.mysql5.7"
+
+  final_snapshot_identifier = "final-${var.identifier}"
 }
+
+# resource "random_string" "final_snapshot_identifier_name" {
+#   length = 16
+#   special = true
+#   override_special = "/@£$"
+# }

@@ -9,3 +9,9 @@ variable "projectname" {
   default     = "poc"
   type        = string
 }
+
+variable "identifier" {
+  description = "The name of the RDS instance"
+  type        = string
+  default     = "testing-01"
+}
