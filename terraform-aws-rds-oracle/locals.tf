@@ -3,7 +3,7 @@
 # -----------------------------------
 
 locals {
-    security_aliases = jsondecode(data.aws_ssm_parameter.security_aliases.value)
+    # security_aliases = jsondecode(data.aws_ssm_parameter.security_aliases.value)
     environment      = var.environment == "" ? data.aws_ssm_parameter.environment.value : var.environment
 
     tags = {
