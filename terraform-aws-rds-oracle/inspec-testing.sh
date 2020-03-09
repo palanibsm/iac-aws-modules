@@ -3,6 +3,7 @@
 echo "Options"
 echo "-noauth Do not re-authenticate with saml"
 echo "-nodestroy - Don't destroy terraform resources"
+# example: sh inspec-testing.sh -noauth -nodestroy
 
 unit_test="inspec" # "terratest" or "inspec"
 
@@ -61,3 +62,28 @@ terraform validate || exit 1
 echo -e "\n$blue ####  Running terraform plan ####$white\n"
 terraform plan || exit 1
 
+if [ $apply ]
+    then
+
+        echo -e "\n$blue ####  NO TerraForm Apply as -noapply used ####$white\n" 
+
+    else
+    echo -e "\n$blue ####  Running TerraForm Apply .....  ####$white\n"
+
+    terraform apply -auto-approve
+fi
+
+echo -e "\n$blue ####  Capturing Terrafor State file for Inspec testing ####$white\n"
+
+terraform state pull >/dev/null
+mkdir -p ./test/files
+terraform output --json > ./test/files/terraform.json
+
+if [ $unit_test == "inspec" ]; then
+    echo -e "\n$blue ####  Inspec Test Started... ####$white\n"
+    sleep 5
+    
+    EXIT_CODE=0
+    inspec exec test -t aws:// || EXIT_CODE=$?
+    echo "InSpec exit code is: " $EXIT_CODE
+fi

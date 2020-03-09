@@ -1,6 +1,7 @@
 tmpprovider.tf
 .terraform
 terraform.tfstate
+terraform.json
 *.tfstate*
 terraform.tfvars
 .DS_Store
